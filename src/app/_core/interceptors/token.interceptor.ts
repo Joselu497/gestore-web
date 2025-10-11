@@ -8,10 +8,10 @@ import { AuthService } from '../services/auth.service';
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const storage = authService.getLocalStorage();
-  if (!!storage && !!storage.token) {
+  if (!!storage && !!storage.access_token) {
     req = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${storage.token}`,
+        Authorization: `Bearer ${storage.access_token}`,
       },
     });
   } else {

@@ -78,7 +78,7 @@ export class AuthService {
   getUserByToken(): Observable<any> {
     let obs: Observable<any>;
     const auth = this.getLocalStorage();
-    if (!auth || !auth.token) {
+    if (!auth || !auth.access_token) {
       return of(undefined);
     }
     obs = of(auth);

@@ -3,6 +3,7 @@ import { LoginComponent } from './features/login/login.component';
 import { authUserGuard } from './_core/guards/auth.guard';
 import { LayoutComponent } from './features/layout/layout.component';
 import { productsRoutes } from './features/products/products.routes';
+import { salesRoutes } from './features/sales/sales.routes';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
         path: 'products',
         children: productsRoutes
       },
+      {
+        path: 'sales',
+        children: salesRoutes
+      }
     ],
   },
 ];

@@ -5,5 +5,10 @@ export const navMenuConfig = {
       icon: 'heroShoppingBag',
       href: '/products',
     },
+    {
+      name: 'Ventas',
+      icon: 'heroBanknotes',
+      href: '/sales',
+    }
   ],
 }

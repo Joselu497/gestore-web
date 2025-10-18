@@ -50,7 +50,7 @@ export class SaveProductComponent extends CoreComponent implements OnInit {
 
   private initForm(): void {
     this.productForm = this._fb.group({
-      name: ['', [Validators.required]],
+      name: [null, [Validators.required]],
     });
   }
 

@@ -5,6 +5,6 @@ export interface Price extends Model {
   amount: number;
   type: 'sale' | 'purchase';
   active: boolean;
-  productId: number;
-  Product: Product;
+  productId?: number;
+  Product?: Product;
 }

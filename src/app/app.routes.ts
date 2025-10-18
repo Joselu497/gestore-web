@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/login/login.component';
-import { ProductsComponent } from './features/products/products.component';
 import { authUserGuard } from './_core/guards/auth.guard';
 import { LayoutComponent } from './features/layout/layout.component';
+import { productsRoutes } from './features/products/products.routes';
 
 export const routes: Routes = [
   {
@@ -21,7 +21,7 @@ export const routes: Routes = [
       },
       {
         path: 'products',
-        component: ProductsComponent,
+        children: productsRoutes
       },
     ],
   },

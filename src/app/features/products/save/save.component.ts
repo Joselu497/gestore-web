@@ -106,7 +106,23 @@ export class SaveProductComponent extends CoreComponent implements OnInit {
       type,
       active: true,
     });
-    type == 'sale' ? this.addingSalePrice.set(false) : this.addingPurchasePrice.set(false);
+    type == 'sale'
+      ? this.addingSalePrice.set(false)
+      : this.addingPurchasePrice.set(false);
+  }
+
+  onRemovePrice(priceToRemove: Price): void {
+    const index = this.prices?.findIndex(
+      (price) =>
+        price.amount === priceToRemove.amount &&
+        price.type === priceToRemove.type
+    );
+
+    if (index !== undefined && index !== -1 && this.prices) {
+      this.prices.splice(index, 1);
+
+      this.prices = [...this.prices];
+    }
   }
 
   onCancel(): void {

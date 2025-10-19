@@ -64,9 +64,13 @@
                     <tr *ngIf="price.type === type" class="*:text-gray-900 *:first:font-medium *:px-3 *:py-2">
                         <td class="whitespace-nowrap">
                             {{ price.amount | currency }}
+                            <span *ngIf="price.active"
+                                class="ms-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Activo
+                            </span>
                         </td>
                         <td class="align-middle whitespace-nowrap justify-end flex gap-2">
-                            <button
+                            <button (click)="onRemovePrice(price)"
                                 class="bg-red-50 hover:bg-red-200 p-1.5 text-red-700 transition-colors grid size-8 place-content-center rounded">
                                 <ng-icon name="heroTrash"></ng-icon>
                             </button>

@@ -16,6 +16,8 @@
 						<th class="whitespace-nowrap">Nombre</th>
 						<th class="whitespace-nowrap">Precio de compra</th>
 						<th class="whitespace-nowrap">Precio de venta</th>
+						<th class="whitespace-nowrap">Ganancia unitaria</th>
+						<th class="whitespace-nowrap">% de ganancia</th>
 						<th class="whitespace-nowrap"></th>
 					</tr>
 				</thead>
@@ -23,17 +25,23 @@
 				<tbody class="divide-y divide-gray-200 bg-white">
 					<ng-container *ngIf="!isLoadingResults(); else loadingTemplate">
 						<ng-container *ngFor="let product of products">
-							<tr class="*:text-gray-900 *:first:font-medium *:px-3 *:py-2">
+							<tr class="*:text-gray-900 *:first:font-medium *:px-2 *:py-1">
 								<td class="whitespace-nowrap">{{ product.name }}</td>
-								<td class="whitespace-nowrap">
+								<td class="whitespace-nowrap text-end">
 									<ng-container *ngIf="(product.prices | activePrice: 'purchase') as activePurchase">
-										{{ activePurchase ? (activePurchase.amount | currency) : 'N/A' }}
+										{{ activePurchase ? (activePurchase | currency) : 'N/A' }}
 									</ng-container>
 								</td>
-								<td class="whitespace-nowrap">
+								<td class="whitespace-nowrap text-end">
 									<ng-container *ngIf="(product.prices | activePrice: 'sale') as activeSale">
-										{{ activeSale ? (activeSale.amount | currency) : 'N/A' }}
+										{{ activeSale ? (activeSale | currency) : 'N/A' }}
 									</ng-container>
+								</td>
+								<td class="whitespace-nowrap text-end">
+									{{ ((product.prices | activePrice: 'sale') - (product.prices | activePrice: 'purchase')) | currency }}
+								</td>
+								<td class="whitespace-nowrap text-center">
+									{{ ((product.prices | activePrice: 'sale') - (product.prices | activePrice: 'purchase')) / (product.prices | activePrice: 'sale') | percent }}
 								</td>
 								<td class="whitespace-nowrap text-center flex gap-2">
 									<a [routerLink]="['./save', product.id]"
@@ -60,7 +68,7 @@
 					</ng-template>
 
 					<tr *ngIf="products.length === 0 && !isLoadingResults()">
-						<td colspan="3" class="px-3 py-8 text-center text-gray-500">
+						<td colspan="100%" class="px-3 py-8 text-center text-gray-500">
 							No se encontraron productos
 						</td>
 					</tr>

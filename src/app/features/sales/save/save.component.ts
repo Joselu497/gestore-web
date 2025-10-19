@@ -55,6 +55,12 @@ export class SaveTransactionComponent extends CoreComponent implements OnInit {
           .all({ paginate: false, productId: value, type: 'sale' })
           .subscribe((prices) => {
             this.prices = prices[0];
+
+            const activePrice = this.prices.find((item: Price) => item.active);
+
+            this.transactionForm
+              .get('priceId')
+              ?.setValue(activePrice?.id || null);
           });
       });
   }
@@ -62,7 +68,7 @@ export class SaveTransactionComponent extends CoreComponent implements OnInit {
   private initForm(): void {
     this.loadProducts();
     this.transactionForm = this._fb.group({
-      date: [null, [Validators.required]],
+      date: [moment().format('YYYY-MM-DD'), [Validators.required]],
       amount: [null, [Validators.required, Validators.min(0)]],
       productId: [null, [Validators.required]],
       priceId: [null, [Validators.required]],

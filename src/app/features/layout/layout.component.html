@@ -1,8 +1,6 @@
-<div class="flex">
-    <app-nav-menu></app-nav-menu>
-    <div class="flex-grow-1 bg-gray-50">
-        <div class="p-6 pt-16">
-            <router-outlet></router-outlet>
-        </div>
+<div class="flex flex-col min-h-screen">
+    <app-nav-menu class="fixed"></app-nav-menu>
+    <div class="flex-grow-1 bg-gray-50 p-6 pt-16 ms-16 h-full">
+        <router-outlet></router-outlet>
     </div>
 </div>

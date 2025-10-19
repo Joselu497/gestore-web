@@ -5,10 +5,10 @@ import { Price } from "../../_core/interfaces/price";
   name: 'activePrice'
 })
 export class ActivePricePipe implements PipeTransform {
-  transform(prices: Price[], type: 'sale' | 'purchase'): Price | undefined {
+  transform(prices: Price[], type: 'sale' | 'purchase'): number {
     if (!prices || !type) {
-      return undefined;
+      return 0;
     }
-    return prices.find(p => p.type === type && p.active);
+    return prices.find(p => p.type === type && p.active)?.amount || 0;
   }
 }

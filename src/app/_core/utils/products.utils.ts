@@ -3,7 +3,7 @@ export function getProductWithPrices(product: any): any {
   
   return {
     ...product,
-    salePrice: prices.find((p: any) => p.type === 'sale')?.amount || 0,
-    purchasePrice: prices.find((p: any) => p.type === 'purchase')?.amount || 0
+    salePrice: prices.find((p: any) => p.type === 'sale' && p.active)?.amount || 0,
+    purchasePrice: prices.find((p: any) => p.type === 'purchase' && p.active)?.amount || 0
   };
 }

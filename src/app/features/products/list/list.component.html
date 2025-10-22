@@ -28,20 +28,16 @@
 							<tr class="*:text-gray-900 *:first:font-medium *:px-2 *:py-1">
 								<td class="whitespace-nowrap">{{ product.name }}</td>
 								<td class="whitespace-nowrap text-end">
-									<ng-container *ngIf="(product.prices | activePrice: 'purchase') as activePurchase">
-										{{ activePurchase ? (activePurchase | currency) : 'N/A' }}
-									</ng-container>
+									{{ product.purchasePrice ? (product.purchasePrice | currency) : 'N/A' }}
 								</td>
 								<td class="whitespace-nowrap text-end">
-									<ng-container *ngIf="(product.prices | activePrice: 'sale') as activeSale">
-										{{ activeSale ? (activeSale | currency) : 'N/A' }}
-									</ng-container>
+									{{ product.salePrice ? (product.salePrice | currency) : 'N/A' }}
 								</td>
 								<td class="whitespace-nowrap text-end">
-									{{ ((product.prices | activePrice: 'sale') - (product.prices | activePrice: 'purchase')) | currency }}
+									{{ (product.salePrice - product.purchasePrice) | currency }}
 								</td>
 								<td class="whitespace-nowrap text-center">
-									{{ ((product.prices | activePrice: 'sale') - (product.prices | activePrice: 'purchase')) / (product.prices | activePrice: 'sale') | percent }}
+									{{ ((product.salePrice - product.purchasePrice) / product.salePrice) | percent }}
 								</td>
 								<td class="whitespace-nowrap text-center flex gap-2">
 									<a [routerLink]="['./save', product.id]"

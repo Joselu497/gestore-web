@@ -3,7 +3,12 @@ import { Component, inject, signal } from '@angular/core';
 import { forkJoin, map, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { provideIcons, NgIcon } from '@ng-icons/core';
-import { heroPencil, heroPlus, heroTrash } from '@ng-icons/heroicons/outline';
+import {
+  heroFunnel,
+  heroPencil,
+  heroPlus,
+  heroTrash,
+} from '@ng-icons/heroicons/outline';
 import {
   PaginationConfig,
   PaginatorComponent,
@@ -11,13 +16,20 @@ import {
 import { CoreComponent } from '../../../shared/components/core.component';
 import { TransactionService } from '../../../_core/services/transaction.service';
 import { getProductWithPrices } from '../../../_core/utils/products.utils';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, PaginatorComponent, RouterModule, NgIcon],
+  imports: [
+    CommonModule,
+    PaginatorComponent,
+    RouterModule,
+    NgIcon,
+    FormsModule,
+  ],
   templateUrl: './list.component.html',
-  providers: [provideIcons({ heroTrash, heroPlus, heroPencil })],
+  providers: [provideIcons({ heroTrash, heroPlus, heroPencil, heroFunnel })],
 })
 export class SalesComponent extends CoreComponent {
   private _transactionService = inject(TransactionService);
@@ -30,9 +42,10 @@ export class SalesComponent extends CoreComponent {
     totalGains: 0,
   };
 
-  ngAfterViewInit() {
-    this.loadData();
-  }
+  dateFilter = {
+    startDate: '',
+    endDate: '',
+  };
 
   paginationConfig: PaginationConfig = {
     currentPage: 1,
@@ -41,18 +54,42 @@ export class SalesComponent extends CoreComponent {
     totalItems: 0,
   };
 
+  ngAfterViewInit() {
+    this.loadData();
+  }
+
   onPageChange(page: number): void {
     this.paginationConfig.currentPage = page;
+    this.loadData();
+  }
+
+  applyFilters() {
+    this.paginationConfig.currentPage = 1;
+    this.loadData();
+  }
+
+  clearFilters() {
+    this.dateFilter = { startDate: '', endDate: '' };
+    this.paginationConfig.currentPage = 1;
     this.loadData();
   }
 
   loadData() {
     this.isLoadingResults.set(true);
 
+    const filters: any = { type: 'sale' };
+
+    if (this.dateFilter.startDate) {
+      filters.startDate = this.dateFilter.startDate;
+    }
+    if (this.dateFilter.endDate) {
+      filters.endDate = this.dateFilter.endDate;
+    }
+
     forkJoin({
-      total: this._transactionService.getTotal({ type: 'sale' }),
+      total: this._transactionService.getTotal(filters),
       transactions: this._transactionService.all(
-        { type: 'sale' },
+        filters,
         ['price.product.prices'],
         this.paginationConfig.currentPage,
         this.paginationConfig.pageSize

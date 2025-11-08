@@ -18,7 +18,7 @@ export abstract class BaseService<T extends Model> {
     return environment.apiUrl + this.url;
   }
 
-  all(search: any = {}, relations: string[] = [], page = 0, limit = Number.MAX_SAFE_INTEGER, order?: string): Observable<any> {
+  all(search: any = {}, relations: string[] = [], page = 0, limit = 10, order?: string): Observable<any> {
     return this.http.get<any>(this.getUrl(), {
       params: this.getParams(search, relations, page, limit, order),
     });

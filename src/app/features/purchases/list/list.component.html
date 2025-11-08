@@ -1,11 +1,11 @@
 <div class="max-w-5xl mx-auto">
 	<div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
 		<div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
-			<h2 class="text-lg font-semibold text-gray-900">Ventas</h2>
+			<h2 class="text-lg font-semibold text-gray-900">Compras</h2>
 			<a routerLink="./save"
 				class="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 transition-colors px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
 				<ng-icon name="heroPlus"></ng-icon>
-				Agregar Venta
+				Agregar Compra
 			</a>
 		</div>
 
@@ -55,21 +55,21 @@
 
 					<tbody class="divide-y divide-gray-200 bg-white">
 						<ng-container *ngIf="!isLoadingResults(); else loadingTemplate">
-							@for (sale of transactions; track sale.id) {
+							@for (purchase of transactions; track purchase.id) {
 							<tr class="*:text-gray-900 *:first:font-medium *:px-2 *:py-1">
-								<td class="whitespace-nowrap">{{ sale.date | date }}</td>
-								<td class="whitespace-nowrap">{{ sale.product.name }}</td>
-								<td class="whitespace-nowrap text-center">{{ sale.amount }}</td>
-								<td class="whitespace-nowrap text-end">{{ sale.price.amount * sale.amount |
+								<td class="whitespace-nowrap">{{ purchase.date | date }}</td>
+								<td class="whitespace-nowrap">{{ purchase.product.name }}</td>
+								<td class="whitespace-nowrap text-center">{{ purchase.amount }}</td>
+								<td class="whitespace-nowrap text-end">{{ purchase.price.amount * purchase.amount |
 									currency }}</td>
-								<td class="whitespace-nowrap text-end">{{ (sale.price.amount -
-									sale.product.purchasePrice) * sale.amount | currency }}</td>
+								<td class="whitespace-nowrap text-end">{{ (purchase.product.salePrice -
+									purchase.product.purchasePrice) * purchase.amount | currency }}</td>
 								<td class="whitespace-nowrap text-center flex gap-2">
-									<a [routerLink]="['./save', sale.id]"
+									<a [routerLink]="['./save', purchase.id]"
 										class="bg-blue-50 hover:bg-blue-200 p-1.5 text-blue-700 transition-colors grid size-8 place-content-center rounded">
 										<ng-icon name="heroPencil" class=""></ng-icon>
 									</a>
-									<button (click)="onDelete(sale.id)"
+									<button (click)="onDelete(purchase.id)"
 										class="bg-red-50 hover:bg-red-200 p-1.5 text-red-700 transition-colors grid size-8 place-content-center rounded">
 										<ng-icon name="heroTrash"></ng-icon>
 									</button>
@@ -90,7 +90,7 @@
 
 						<tr *ngIf="transactions.length === 0 && !isLoadingResults()">
 							<td colspan="5" class="px-3 py-8 text-center text-gray-500">
-								No se encontraron ventas
+								No se encontraron compras
 							</td>
 						</tr>
 					</tbody>

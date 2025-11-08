@@ -6,11 +6,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SaveTransactionComponent } from '../../../shared/components/transaction/save-transaction.component';
 
 @Component({
-  selector: 'app-save-sale',
+  selector: 'app-save-purchase',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, NgSelectModule],
   templateUrl: './save.component.html',
 })
-export class SaveSaleComponent extends SaveTransactionComponent {
-  override type: 'sale' = 'sale';
+export class SavePurchaseComponent extends SaveTransactionComponent {
+  override type: 'purchase' = 'purchase';
 }

@@ -8,12 +8,14 @@ import {
   heroPlus,
   heroTrash,
 } from '@ng-icons/heroicons/outline';
-import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
+import {
+  PaginatorComponent,
+} from '../../../shared/components/paginator/paginator.component';
 import { FormsModule } from '@angular/forms';
 import { TransactionsComponent } from '../../../shared/components/transaction/transactions.component';
 
 @Component({
-  selector: 'app-sales',
+  selector: 'app-purchases',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,6 +27,6 @@ import { TransactionsComponent } from '../../../shared/components/transaction/tr
   templateUrl: './list.component.html',
   providers: [provideIcons({ heroTrash, heroPlus, heroPencil, heroFunnel })],
 })
-export class SalesComponent extends TransactionsComponent {
-  override type: 'sale' = 'sale';
+export class PurchasesComponent extends TransactionsComponent {
+  override type: 'purchase' = 'purchase';
 }

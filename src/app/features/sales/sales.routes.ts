@@ -1,18 +1,18 @@
-import { Routes } from "@angular/router";
-import { SalesComponent } from "./list/list.component";
-import { SaveTransactionComponent } from "./save/save.component";
+import { Routes } from '@angular/router';
+import { SalesComponent } from './list/list.component';
+import { SaveSaleComponent } from './save/save.component';
 
 export const salesRoutes: Routes = [
   {
     path: '',
     component: SalesComponent,
   },
-    {
-      path: 'save',
-      component: SaveTransactionComponent,
-    },
-    {
-      path: 'save/:id',
-      component: SaveTransactionComponent,
-    },
+  {
+    path: 'save',
+    component: SaveSaleComponent,
+  },
+  {
+    path: 'save/:id',
+    component: SaveSaleComponent,
+  },
 ];

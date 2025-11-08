@@ -112,7 +112,6 @@ export class SalesComponent extends CoreComponent {
         next: ({ total, transactions }) => {
           this.totalData = total;
           this.sales = transactions[0];
-          console.log(this.sales);
           this.paginationConfig.totalItems = transactions[1];
           this.paginationConfig.totalPages = Math.ceil(
             transactions[1] / this.paginationConfig.pageSize

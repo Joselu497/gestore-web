@@ -1,9 +1,6 @@
 <ul class="flex pt-3 mx-auto justify-center gap-1 text-gray-900">
   <li>
-    <button
-      (click)="previousPage()"
-      [disabled]="config.currentPage === 1"
-      [class.opacity-50]="config.currentPage === 1"
+    <button (click)="previousPage()" [disabled]="config.currentPage === 1" [class.opacity-50]="config.currentPage === 1"
       [class.cursor-not-allowed]="config.currentPage === 1"
       class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180 disabled:hover:bg-transparent"
       aria-label="Página anterior">
@@ -15,46 +12,43 @@
     </button>
   </li>
 
-  <ng-container *ngIf="pages[0] > 1">
-    <li>
-      <button
-        (click)="goToPage(1)"
-        class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50">
-        1
-      </button>
-    </li>
-    <li *ngIf="pages[0] > 2" class="flex items-center">
-      <span class="px-2">...</span>
-    </li>
-  </ng-container>
+  @if (pages[0] > 1) {
+  <li>
+    <button (click)="goToPage(1)"
+      class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50">
+      1
+    </button>
+  </li>
+  <li *ngIf="pages[0] > 2" class="flex items-center">
+    <span class="px-2">...</span>
+  </li>
+  }
 
-  <li *ngFor="let page of pages">
-    <button
-      (click)="goToPage(page)"
+  @for (page of pages; track page) {
+  <li>
+    <button (click)="goToPage(page)"
       [class]="page === config.currentPage 
-        ? 'block size-8 rounded border border-indigo-600 bg-indigo-600 text-center text-sm/8 font-medium text-white'
-        : 'block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50'">
+          ? 'block size-8 rounded border border-indigo-600 bg-indigo-600 text-center text-sm/8 font-medium text-white'
+          : 'block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50'">
       {{ page }}
     </button>
   </li>
+  }
 
-  <ng-container *ngIf="pages[pages.length - 1] < config.totalPages">
+  @if (pages[pages.length - 1] < config.totalPages) {
     <li *ngIf="pages[pages.length - 1] < config.totalPages - 1" class="flex items-center">
       <span class="px-2">...</span>
     </li>
     <li>
-      <button
-        (click)="goToPage(config.totalPages)"
+      <button (click)="goToPage(config.totalPages)"
         class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50">
         {{ config.totalPages }}
       </button>
     </li>
-  </ng-container>
+  }
 
   <li>
-    <button
-      (click)="nextPage()"
-      [disabled]="config.currentPage === config.totalPages"
+    <button (click)="nextPage()" [disabled]="config.currentPage === config.totalPages"
       [class.opacity-50]="config.currentPage === config.totalPages"
       [class.cursor-not-allowed]="config.currentPage === config.totalPages"
       class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180 disabled:hover:bg-transparent"

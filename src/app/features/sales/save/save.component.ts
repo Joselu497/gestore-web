@@ -68,7 +68,7 @@ export class SaveTransactionComponent extends CoreComponent implements OnInit {
   private initForm(): void {
     this.loadProducts();
     this.transactionForm = this._fb.group({
-      date: [moment().format('YYYY-MM-DD'), [Validators.required]],
+      date: [moment('2025-09-22').format('YYYY-MM-DD'), [Validators.required]],
       amount: [null, [Validators.required, Validators.min(0)]],
       productId: [null, [Validators.required]],
       priceId: [null, [Validators.required]],
@@ -117,13 +117,10 @@ export class SaveTransactionComponent extends CoreComponent implements OnInit {
 
   onSubmit(): void {
     if (this.transactionForm.valid) {
-      const userId = this._authService.currentUserValue.id;
-
       const formValue = this.transactionForm.value;
       const transactionData = {
         date: formValue.date,
         amount: formValue.amount,
-        userId,
         priceId: formValue.priceId,
         type: 'sale',
       };

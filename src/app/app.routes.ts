@@ -5,6 +5,7 @@ import { LayoutComponent } from './features/layout/layout.component';
 import { productsRoutes } from './features/products/products.routes';
 import { salesRoutes } from './features/sales/sales.routes';
 import { purchasesRoutes } from './features/purchases/purchases.routes';
+import { InventoryComponent } from './features/inventory/inventory.component';
 
 export const routes: Routes = [
   {
@@ -32,7 +33,11 @@ export const routes: Routes = [
       {
         path: 'purchases',
         children: purchasesRoutes
-      }
+      },
+      {
+        path: 'inventory',
+        component: InventoryComponent
+      },
     ],
   },
 ];

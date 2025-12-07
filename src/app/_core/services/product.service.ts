@@ -7,4 +7,8 @@ import { Product } from '../interfaces/product';
 })
 export class ProductService extends BaseService<Product> {
   override url = '/products';
+
+  getInventory() {
+    return this.http.get<any>(this.getUrl() + '/inventory');
+  }
 }

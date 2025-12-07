@@ -14,6 +14,11 @@ export const navMenuConfig = {
       name: 'Compras',
       icon: 'heroShoppingCart',
       href: '/purchases'
-    }
+    },
+    {
+      name: 'Inventario',
+      icon: 'heroCube',
+      href: '/inventory'
+    },
   ],
 }

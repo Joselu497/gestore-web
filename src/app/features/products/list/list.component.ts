@@ -23,6 +23,8 @@ export class ProductsComponent extends CoreComponent {
   private _productService = inject(ProductService);
 
   isLoadingResults = signal(true);
+  searchTerm = signal('');
+  searchTimeout: any;
 
   products: any[] = [];
 
@@ -47,7 +49,7 @@ export class ProductsComponent extends CoreComponent {
 
     this._productService
       .all(
-        {},
+        { name: this.searchTerm() },
         ['prices'],
         this.paginationConfig.currentPage,
         this.paginationConfig.pageSize
@@ -61,7 +63,6 @@ export class ProductsComponent extends CoreComponent {
       )
       .subscribe((res: any) => {
         this.products = res[0];
-        console.log(res);
         this.paginationConfig.totalItems = res[1];
         this.paginationConfig.totalPages = Math.ceil(
           res[1] / this.paginationConfig.pageSize
@@ -78,5 +79,14 @@ export class ProductsComponent extends CoreComponent {
       .subscribe(() => {
         this.loadData();
       });
+  }
+
+  onSearchChange(event: any) {
+    clearTimeout(this.searchTimeout);
+    const searchValue = event.target.value || '';
+    this.searchTimeout = setTimeout(() => {
+      this.searchTerm.set(searchValue);
+      this.loadData();
+    }, 500);
   }
 }

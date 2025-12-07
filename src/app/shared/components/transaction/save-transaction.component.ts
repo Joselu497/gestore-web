@@ -23,7 +23,7 @@ import { PriceService } from '../../../_core/services/price.service';
   selector: 'app-save-product',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, NgSelectModule],
-  template: `<ng-container>`,
+  template: `<ng-container></ng-container>`,
 })
 export class SaveTransactionComponent extends CoreComponent implements OnInit {
   private _fb = inject(FormBuilder);
@@ -60,7 +60,7 @@ export class SaveTransactionComponent extends CoreComponent implements OnInit {
 
             this.transactionForm
               .get('priceId')
-              ?.setValue(activePrice?.id || null);
+              ?.setValue(this.transaction?.priceId || activePrice?.id || null);
           });
       });
   }
@@ -68,7 +68,7 @@ export class SaveTransactionComponent extends CoreComponent implements OnInit {
   private initForm(): void {
     this.loadProducts();
     this.transactionForm = this._fb.group({
-      date: [moment('2025-09-22').format('YYYY-MM-DD'), [Validators.required]],
+      date: [moment().format('YYYY-MM-DD'), [Validators.required]],
       amount: [null, [Validators.required, Validators.min(0)]],
       productId: [null, [Validators.required]],
       priceId: [null, [Validators.required]],
@@ -140,6 +140,8 @@ export class SaveTransactionComponent extends CoreComponent implements OnInit {
   }
 
   goBack(): void {
-    this._router.navigate(this.type == 'sale' ? ['../sales'] : ['../purchases']);
+    this._router.navigate(
+      this.type == 'sale' ? ['../sales'] : ['../purchases']
+    );
   }
 }

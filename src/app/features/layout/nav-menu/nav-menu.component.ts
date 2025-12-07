@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { navMenuConfig } from './nav-menu.config';
 import { provideIcons, NgIcon } from '@ng-icons/core';
-import { heroArrowLeftEndOnRectangle, heroBanknotes, heroShoppingBag, heroShoppingCart } from '@ng-icons/heroicons/outline';
+import { heroArrowLeftEndOnRectangle, heroBanknotes, heroCube, heroShoppingBag, heroShoppingCart } from '@ng-icons/heroicons/outline';
 import { AuthService } from '../../../_core/services/auth.service';
 
 export interface NavMenuItem {
@@ -16,7 +16,7 @@ export interface NavMenuItem {
   standalone: true,
   templateUrl: './nav-menu.component.html',
   imports: [CommonModule, NgIcon],
-  providers: [provideIcons({ heroShoppingBag, heroArrowLeftEndOnRectangle, heroBanknotes, heroShoppingCart })],
+  providers: [provideIcons({ heroShoppingBag, heroArrowLeftEndOnRectangle, heroBanknotes, heroShoppingCart, heroCube })],
 })
 export class NavMenuComponent {
   navMenuConfig: { items: NavMenuItem[] } = navMenuConfig;

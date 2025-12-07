@@ -1,0 +1,50 @@
+<div class="max-w-5xl mx-auto">
+	<div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
+		<div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
+			<h2 class="text-lg font-semibold text-gray-900">Inventario</h2>
+		</div>
+		<div class="overflow-hidden p-6">
+			<div class="overflow-x-auto overflow-y-hidden">
+				<table class="min-w-full divide-y-2 divide-gray-200">
+					<thead class="ltr:text-left rtl:text-right">
+						<tr class="*:font-medium *:text-gray-900 *:px-3 *:py-3">
+							<th class="whitespace-nowrap">Nombre</th>
+							<th class="whitespace-nowrap text-center">Unidades</th>
+							<th class="whitespace-nowrap text-center">Cantidad comprada</th>
+							<th class="whitespace-nowrap text-center">Cantidad vendida</th>
+						</tr>
+					</thead>
+
+					<tbody class="divide-y divide-gray-200 bg-white">
+						@if (!isLoadingResults()) {
+						@for (item of inventory; track item.productName) {
+						<tr class="*:text-gray-900 *:first:font-medium *:px-2 *:py-1">
+							<td class="whitespace-nowrap">{{ item.productName }}</td>
+							<td class="whitespace-nowrap text-center">{{ item.inventory }}</td>
+							<td class="whitespace-nowrap text-center">{{ item.totalPurchases }}</td>
+							<td class="whitespace-nowrap text-center">{{ item.totalSales }}</td>
+						</tr>
+						}
+						} @else {
+						<tr>
+							<td colspan="3" class="px-3 py-8 text-center">
+								<div class="flex justify-center items-center">
+									<div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+								</div>
+							</td>
+						</tr>
+						}
+
+						@if (inventory.length === 0 && !isLoadingResults()) {
+						<tr>
+							<td colspan="100%" class="px-3 py-8 text-center text-gray-500">
+								No se encontraron productos
+							</td>
+						</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

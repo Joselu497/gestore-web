@@ -11,6 +11,8 @@ import {
 import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
 import { FormsModule } from '@angular/forms';
 import { TransactionsComponent } from '../../../shared/components/transaction/transactions.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { TransactionFilterComponent } from '../../../shared/components/transaction/transaction-filter/transaction-filter.component';
 
 @Component({
   selector: 'app-sales',
@@ -21,6 +23,8 @@ import { TransactionsComponent } from '../../../shared/components/transaction/tr
     RouterModule,
     NgIcon,
     FormsModule,
+    NgSelectModule,
+    TransactionFilterComponent
   ],
   templateUrl: './list.component.html',
   providers: [provideIcons({ heroTrash, heroPlus, heroPencil, heroFunnel })],

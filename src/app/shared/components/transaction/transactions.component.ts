@@ -2,21 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { forkJoin, map, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
-import { provideIcons, NgIcon } from '@ng-icons/core';
-import {
-  heroFunnel,
-  heroPencil,
-  heroPlus,
-  heroTrash,
-} from '@ng-icons/heroicons/outline';
-import {
-  PaginationConfig,
-  PaginatorComponent,
-} from '../paginator/paginator.component';
+import { PaginationConfig } from '../paginator/paginator.component';
 import { CoreComponent } from '../core.component';
 import { TransactionService } from '../../../_core/services/transaction.service';
 import { getProductWithPrices } from '../../../_core/utils/products.utils';
 import { FormsModule } from '@angular/forms';
+import { ProductService } from '../../../_core/services/product.service';
+import { Product } from '../../../_core/interfaces/product';
+import { TransactionFilterComponent } from './transaction-filter/transaction-filter.component';
 
 @Component({
   selector: 'app-products',
@@ -25,20 +18,21 @@ import { FormsModule } from '@angular/forms';
   template: `<ng-container></ng-container>`,
 })
 export class TransactionsComponent extends CoreComponent {
+  filterComponent!: TransactionFilterComponent;
+
   private _transactionService = inject(TransactionService);
+  private _productService = inject(ProductService);
 
   isLoadingResults = signal(true);
   type: 'sale' | 'purchase' = 'sale';
+
+  products: Product[] = [];
+  isLoadingProducts = signal(true);
 
   transactions: any[] = [];
   totalData: any = {
     totalIncome: 0,
     totalGains: 0,
-  };
-
-  dateFilter = {
-    startDate: '',
-    endDate: '',
   };
 
   paginationConfig: PaginationConfig = {
@@ -57,34 +51,14 @@ export class TransactionsComponent extends CoreComponent {
     this.loadData();
   }
 
-  applyFilters() {
-    this.paginationConfig.currentPage = 1;
-    this.loadData();
-  }
-
-  clearFilters() {
-    this.dateFilter = { startDate: '', endDate: '' };
-    this.paginationConfig.currentPage = 1;
-    this.loadData();
-  }
-
-  loadData() {
+  loadData(filters: any = {}) {
     this.isLoadingResults.set(true);
-
-    const filters: any = { type: this.type };
-
-    if (this.dateFilter.startDate) {
-      filters.startDate = this.dateFilter.startDate;
-    }
-    if (this.dateFilter.endDate) {
-      filters.endDate = this.dateFilter.endDate;
-    }
 
     forkJoin({
       total: this._transactionService.getTotal(filters),
       transactions: this._transactionService.all(
         filters,
-        ['price.product.prices'],
+        ['price.product', 'price.product.prices'],
         this.paginationConfig.currentPage,
         this.paginationConfig.pageSize
       ),
@@ -117,6 +91,18 @@ export class TransactionsComponent extends CoreComponent {
           console.error('Error loading data:', error);
           this.isLoadingResults.set(false);
         },
+      });
+  }
+
+  loadProducts() {
+    this.isLoadingProducts.set(true);
+
+    this._productService
+      .all()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((products) => {
+        this.products = products[1];
+        this.isLoadingProducts.set(false);
       });
   }
 

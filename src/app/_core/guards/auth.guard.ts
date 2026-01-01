@@ -6,7 +6,10 @@ export const authUserGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (!authService.getLocalStorage()) {
+  if (
+    !authService.getLocalStorage() ||
+    !authService.getLocalStorage().access_token
+  ) {
     router.navigate(['/login']);
     return false;
   }

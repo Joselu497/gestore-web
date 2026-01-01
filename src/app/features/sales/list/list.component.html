@@ -60,7 +60,7 @@
                       sale.amount | currency
                   }}
                 </td>
-                <td class="whitespace-nowrap text-center flex gap-2">
+                <td class="whitespace-nowrap justify-end flex gap-2">
                   <a
                     [routerLink]="['./save', sale.id]"
                     class="bg-blue-50 hover:bg-blue-200 p-1.5 text-blue-700 transition-colors grid size-8 place-content-center rounded"
@@ -101,6 +101,7 @@
         <app-paginator
           [config]="paginationConfig"
           (pageChange)="onPageChange($event)"
+          (sizeChange)="onPageSizeChange($event)"
         >
         </app-paginator>
       </div>

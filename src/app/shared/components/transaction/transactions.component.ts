@@ -3,13 +3,13 @@ import { Component, inject, signal } from '@angular/core';
 import { forkJoin, map, takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { PaginationConfig } from '../paginator/paginator.component';
-import { CoreComponent } from '../core.component';
 import { TransactionService } from '../../../_core/services/transaction.service';
 import { getProductWithPrices } from '../../../_core/utils/products.utils';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../_core/services/product.service';
 import { Product } from '../../../_core/interfaces/product';
 import { TransactionFilterComponent } from './transaction-filter/transaction-filter.component';
+import { PagedListComponent } from '../paged-list.component';
 
 @Component({
   selector: 'app-products',
@@ -17,7 +17,7 @@ import { TransactionFilterComponent } from './transaction-filter/transaction-fil
   imports: [CommonModule, RouterModule, FormsModule],
   template: `<ng-container></ng-container>`,
 })
-export class TransactionsComponent extends CoreComponent {
+export class TransactionsComponent extends PagedListComponent {
   filterComponent!: TransactionFilterComponent;
 
   private _transactionService = inject(TransactionService);
@@ -35,29 +35,22 @@ export class TransactionsComponent extends CoreComponent {
     totalGains: 0,
   };
 
-  paginationConfig: PaginationConfig = {
-    currentPage: 1,
-    totalPages: 1,
-    pageSize: 10,
-    totalItems: 0,
-  };
-
   ngAfterViewInit() {
-    this.loadData();
-  }
-
-  onPageChange(page: number): void {
-    this.paginationConfig.currentPage = page;
     this.loadData();
   }
 
   loadData(filters: any = {}) {
     this.isLoadingResults.set(true);
 
+    const filtersWithType = {
+      ...filters,
+      type: this.type,
+    };
+
     forkJoin({
-      total: this._transactionService.getTotal(filters),
+      total: this._transactionService.getTotal(filtersWithType),
       transactions: this._transactionService.all(
-        filters,
+        filtersWithType,
         ['price.product', 'price.product.prices'],
         this.paginationConfig.currentPage,
         this.paginationConfig.pageSize

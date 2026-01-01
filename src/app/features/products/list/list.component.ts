@@ -8,9 +8,9 @@ import {
   PaginationConfig,
   PaginatorComponent,
 } from '../../../shared/components/paginator/paginator.component';
-import { CoreComponent } from '../../../shared/components/core.component';
 import { ProductService } from '../../../_core/services/product.service';
 import { getProductWithPrices } from '../../../_core/utils/products.utils';
+import { PagedListComponent } from '../../../shared/components/paged-list.component';
 
 @Component({
   selector: 'app-products',
@@ -19,7 +19,7 @@ import { getProductWithPrices } from '../../../_core/utils/products.utils';
   templateUrl: './list.component.html',
   providers: [provideIcons({ heroTrash, heroPlus, heroPencil })],
 })
-export class ProductsComponent extends CoreComponent {
+export class ProductsComponent extends PagedListComponent {
   private _productService = inject(ProductService);
 
   isLoadingResults = signal(true);
@@ -29,18 +29,6 @@ export class ProductsComponent extends CoreComponent {
   products: any[] = [];
 
   ngAfterViewInit() {
-    this.loadData();
-  }
-
-  paginationConfig: PaginationConfig = {
-    currentPage: 1,
-    totalPages: 1,
-    pageSize: 10,
-    totalItems: 0,
-  };
-
-  onPageChange(page: number): void {
-    this.paginationConfig.currentPage = page;
     this.loadData();
   }
 

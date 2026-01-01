@@ -22,7 +22,6 @@ export class TransactionFilterComponent extends CoreComponent {
   filter = output<any>();
 
   isLoadingResults = signal(true);
-  type: 'sale' | 'purchase' = 'sale';
 
   products: Product[] = [];
   isLoadingProducts = signal(true);
@@ -37,7 +36,6 @@ export class TransactionFilterComponent extends CoreComponent {
     this.filterForm.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((filterValue) => {
-        console.log(filterValue);
         const filters = Object.entries(filterValue).reduce(
           (filter: any, [key, value]) => {
             if (value !== null && value !== undefined && value !== '') {
@@ -45,10 +43,8 @@ export class TransactionFilterComponent extends CoreComponent {
             }
             return filter;
           },
-          { type: this.type }
         );
 
-        console.log(filters);
         this.filter.emit(filters);
       });
   }
@@ -71,10 +67,10 @@ export class TransactionFilterComponent extends CoreComponent {
     this.isLoadingProducts.set(true);
 
     this._productService
-      .all()
+      .all({ pagination: false })
       .pipe(takeUntil(this.destroy$))
       .subscribe((products) => {
-        this.products = products[0];
+        this.products = products;
         this.isLoadingProducts.set(false);
       });
   }
